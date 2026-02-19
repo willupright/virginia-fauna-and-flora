@@ -36,11 +36,11 @@ Tenley Kennett, Michael Gerber, Will Upright, Theo Mandelbaum
 ---
 
 ## My Contributions
-- Designed and implemented relational database schema using PostgreSQL
-- Developed backend models and database logic using Flask App Builder
+- Worked with team members to design and implement a relational database schema using PostgreSQL
+- Worked with team members to developed backend models and database logic using Flask App Builder
 - Wrote SQL queries to support filtering and searching by species attributes
 - Assisted with integrating database functionality into the web interface
-- Collaborated with teammates through sprint planning, testing, and code reviews
+- Collaborated with teammates through testing and code reviews
 
 ---
 
