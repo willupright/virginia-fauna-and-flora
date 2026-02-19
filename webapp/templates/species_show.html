@@ -1,0 +1,107 @@
+{% extends "appbuilder/general/model/show_cascade.html" %}
+
+{% block head %}
+  {{ super() }}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .dropdown-menu {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .dropdown-menu .dropdown-item {
+      border-bottom: 1px solid #e9ecef;
+      padding: 0.75rem 1rem;
+    }
+    
+    .dropdown-menu .dropdown-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  {# Pick whichever name exists: item, model, or record #}
+  {% set record = (item if item is defined else (model if model is defined else (record if record is defined else None))) %}
+
+  {% if not record %}
+    <p><strong>Error:</strong> record is not provided to template.</p>
+  {% else %}
+    <h1>{{ record.common_name }} <em>({{ record.scientific_name }})</em></h1>
+
+    <p><strong>Category:</strong> {{ record.category }}</p>
+    <p><strong>Conservation Status:</strong> {{ record.conservation_status }}</p>
+    <p><strong>Description:</strong> {{ record.description }}</p>
+
+    <div style="display:flex; justify-content:space-evenly; align-items:center; gap:2rem; margin:2rem 0;">
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="countiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Counties ({{ record.counties|length if record.counties else 0 }})
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="countiesDropdown">
+            {% if record.counties %}
+              {% for c in record.counties %}
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('SpeciesView.list') }}?_flt_0_counties={{ c.county_id }}">{{ c.name }}</a>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li><span class="dropdown-item disabled">No counties listed</span></li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="habitatsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Habitats ({{ record.habitat|length if record.habitat else 0 }})
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="habitatsDropdown">
+            {% if record.habitat %}
+              {% for h in record.habitat %}
+                <li><span class="dropdown-item">{{ h.habitat }}</span></li>
+              {% endfor %}
+            {% else %}
+              <li><span class="dropdown-item disabled">No habitat information</span></li>
+            {% endif %}
+          </ul>
+        </div>
+    </div>
+
+
+    <!-- <script>
+      document.getElementById('countiesDropdown').addEventListener('click', function() {
+        console.log('Counties dropdown clicked');
+        console.log('Bootstrap available:', typeof bootstrap !== 'undefined');
+      });
+    </script> -->
+  {% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block tail %}
+<style>
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem !important;
+  }
+
+  p {
+    font-size: 2rem;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-menu .dropdown-item {
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.75rem 1rem;
+  }
+  
+  .dropdown-menu .dropdown-item:last-child {
+    border-bottom: none;
+  }
+</style>
+{% endblock %}
+{% endblock %}

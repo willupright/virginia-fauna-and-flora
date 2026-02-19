@@ -1,0 +1,16 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+<h1>Species in {{ county_name }}</h1>
+
+{% if species_list %}
+<ul>
+    {% for sp in species_list %}
+    <li><a href="/species/show/{{ sp.species_id }}">
+            {{ sp.common_name }} <em>({{ sp.scientific_name }})</em>
+        </a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No species found for this county... Where'd they go.?</p>
+{% endif %}
+{% endblock %}

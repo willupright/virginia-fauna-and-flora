@@ -1,0 +1,209 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+
+<div class="observation-container">
+
+    <h2 class="obs-title">
+        {% if observation.species_observed > 1 %}
+            {{ species.common_name }}
+            observed on {{ observation.date_time.strftime('%Y-%m-%d') }}
+            at {{ observation.date_time.strftime('%H:%M') }}
+        {% else %}
+            {{ observation.species_observed }} {{ species.common_name }}
+            observed on {{ observation.date_time.strftime('%Y-%m-%d') }}
+            at {{ observation.date_time.strftime('%H:%M') }}
+        {% endif %}
+    </h2>
+
+    <p class="obs-meta">
+        Observed by <strong>{{ observation.observer_id }}</strong><br>
+        County: <strong>{{ observation.county_id }}</strong>
+    </p>
+
+    {% if observation.species and observation.species.habitat and observation.species.habitat|length > 0 %}
+        {% set habitat_obj = observation.species.habitat[0] %}
+        {% if habitat_obj and habitat_obj.habitat %}
+            {% set habitat_slug = habitat_obj.habitat|lower|replace('&', 'and')|replace(' ', '_')|replace('-', '_') %}
+            <div class="habitat-image-wrap">
+                <img class="habitat-image"
+                     src="{{ url_for('static', filename='images/habitats/' ~ habitat_slug ~ '.jpg') }}"
+                     alt="{{ habitat_obj.habitat }}">
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="make-comment">
+        <button type="button" id="toggle-comment-form" class="view-link">
+            Make a Comment
+        </button>
+    </div>
+
+    <div id="comment-form-container" class="hidden" style="margin-top: 20px;">
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.f_comment_text.label }}
+                {{ form.f_comment_text(class="form-control") }}
+                {% for error in form.f_comment_text.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
+
+    <h3 class="comments-header">Comments</h3>
+
+    {% if not comments %}
+        <p class="comment-empty">No comments yet. Be the first to comment.</p>
+    {% else %}
+        <div class="comment-list">
+
+            {% for comment in comments %}
+                {% set display_name = comment.user.name if comment.user and comment.user.name else 'User ' ~ comment.user_id %}
+                {% set initials = display_name[:2] | upper %}
+
+                <div class="comment-card">
+                    <div class="comment-avatar">{{ initials }}</div>
+
+                    <div class="comment-body">
+                        <div class="comment-meta">
+                            <strong class="comment-author">{{ display_name }}</strong>
+                            <span class="comment-time">
+                                {% if comment.time_stamp %}
+                                    {{ comment.time_stamp.strftime('%Y-%m-%d %H:%M') }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="comment-text">{{ comment.comment_text }}</div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+<script>
+console.log('ok we in script')
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('toggle-comment-form');
+    const container = document.getElementById('comment-form-container');
+    if (btn && container) {
+        console.log('Button and container found', btn, container);
+        btn.addEventListener('click', function() {
+            container.classList.toggle('hidden');
+        });
+    }
+});
+</script>
+
+{% block tail %}
+<style>
+    .observation-container {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 36px; /* controls vertical spacing between major sections */
+        padding: 20px 0;
+    }
+
+    .obs-title {
+        text-align: center;
+        font-size: 3.2rem;
+        margin: 0;
+    }
+
+    .obs-meta {
+        font-size: 1.8rem;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .habitat-image-wrap {
+        text-align: center;
+        width: 100%;
+    }
+
+    .habitat-image {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    .make-comment {
+        margin-top: -10px;
+    }
+
+    .view-link {
+        text-decoration: none;
+        color: #fff;
+        background: #007bff;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    .view-link:hover { background: #0056b3 }
+
+    .comments-header {
+        padding: 10px;
+        margin: 0;
+        font-size: 1.6rem;
+    }
+
+    .comment-empty {
+        color: #666;
+        font-style: italic;
+        margin-top: -10px;
+    }
+
+    .comment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px; /* spacing between comments */
+        text-align: left;
+    }
+
+    .comment-card {
+        display: flex;
+        gap: 12px;
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .hidden { display: none; }
+
+    .comment-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #007bff;
+        color: #fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:700;
+        font-size:16px;
+    }
+
+    .comment-meta {
+        display:flex;
+        gap: 10px;
+        align-items: baseline;
+        color: #444;
+    }
+
+    .comment-author { font-size: 15px; }
+    .comment-time { color: #888; font-size: 13px; }
+    .comment-text { margin-top: 6px; color: #333; white-space: pre-wrap; font-size: 14px; }
+
+</style>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,85 @@
+Table county {
+ county_id INT [PK]
+ state TEXT
+ name TEXT
+ region TEXT // note: ex.w Eastern VA
+}
+
+Table observation {
+ date_time timestamp [PK]
+ species_observed INT [PK] // FK that links to species_id
+ observer_id INT [PK] // FK that links to user_id
+ county_id INT // FK that links to county_id
+ observation_type TEXT
+ notes TEXT
+ status TEXT
+}
+
+Table user {
+ user_id INT [PK]
+ name TEXT
+ permission_level INT // (1-public, 2-researcher, 3-admin)
+ email TEXT
+}
+
+Table specialized_in { // table for many to many relationship user/specialty
+ specialty_id INT
+ user_id INT
+}
+
+Table specialty {
+ specialty_id INT [PK]
+ admin_specialty TEXT
+}
+
+Table species_exists { // table for many to many relationship species/county
+ species_id INT
+ county_id INT
+}
+
+Table species {
+ species_id INT [PK]
+ common_name TEXT
+ scientific_name TEXT // note: ex. Salmo salar
+ category TEXT
+ conservation_status TEXT // note: endangered, vulnerable, etc.
+ description TEXT
+}
+
+Table habitat {
+ species_id INT [PK] // foreign key for species table
+ habitat TEXT [PK]
+}
+
+Table media {
+ media_id INT [PK]
+ media_date_time timestamp
+ media_species_observed INT
+ media_observer_id INT
+ media_type TEXT
+ media_url TEXT
+ description TEXT
+}
+
+Table comment {
+ comment_id INT [PK]
+ user_id INT // FK to User
+ // Composite Foreign Key to Observation
+ observation_date_time timestamp
+ observation_species_observed INT
+ observation_observer_id INT
+ comment_text TEXT
+ time_stamp timestamp
+}
+
+Ref: habitat.species_id > species.species_id
+
+Ref: county.county_id < species_exists.county_id
+Ref: species_exists.species_id > species.species_id
+Ref: observation.species_observed <> species.species_id
+Ref: observation.county_id > county.county_id
+Ref: observation.observer_id - user.user_id
+Ref: media.(media_date_time, media_species_observed, media_observer_id) > observation.(date_time, species_observed, observer_id)
+Ref: specialty.specialty_id < specialized_in.specialty_id
+Ref: user.user_id < specialized_in.user_id
+Ref: comment.(observation_date_time, observation_species_observed, observation_observer_id) > observation.(date_time, species_observed, observer_id)

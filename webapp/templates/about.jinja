@@ -1,0 +1,234 @@
+{% extends "appbuilder/base.html" %}
+
+{% block head_css %}
+{{ super() }}
+<style>
+  body {
+    background-color: #FFFCF2;
+    font-family: 'Poppins', sans-serif;
+  }
+
+     .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-menu {
+        max-height: 400px;
+        overflow-y: auto;
+        left: 50% !important;
+        transform: translateX(-50%);
+        text-align: center;
+        background-color: #D5CDAB;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .dropdown-menu>li>a {
+        color: #103504;
+        font-family: "Exo 2", sans-serif;
+        font-weight: bold;
+        padding: 10px 20px;
+    }
+
+    .dropdown-menu>li>a:hover {
+        background-color: #a39b78;
+        color: #103504;
+    }
+
+    .jumbotron #about a {
+        display: inline-block;
+        font-size: 18px;
+        font-family: "Exo 2", sans-serif;
+        font-weight: bold;
+        padding: 8px 20px;
+        border-radius: 50px;
+        background-color: #D5CDAB;
+        color: #103504;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .navbar-brand a {
+        font-weight: bold;
+        text-decoration: none;
+        color: #103504;
+    }
+
+    .jumbotron #about a:hover {
+        background-color: #D5CDAB;
+        color: #a39b78;
+    }
+
+    .jumbotron #about-us:hover {
+        color: #103504;
+    }
+
+    .container,
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #startExploring {
+        text-decoration: none;
+        color: #103504;
+    }
+
+    #startExploring:hover {
+        color: #a39b78;
+    }
+
+    {
+        # -------- ADJUSTING LUMEN.CSS ----------- #
+    }
+
+    span>.navbar-header {
+        color: red;
+    }
+    .navbar {
+        background-color: #D5CDAB;
+        color: #FFFCF2;
+        padding-left: 50px;
+        padding-right: 30px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        padding-bottom: 15px;
+        border:none;
+    }
+
+    .dropdown-toggle {
+        color: #103504 !important;
+    }
+
+  .img-wrapper {
+    width: 250px;
+    height: 400px;
+    overflow: hidden;       
+    flex-shrink: 0;         
+    border-radius: 6px;     
+  }
+
+  .img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      
+  }
+
+  /* Remove all borders inside navbar, including inline styles */
+  .navbar * {
+    border: none !important;
+  }
+
+  /* Navbar links color */
+  .navbar-inverse .navbar-nav>li>a,
+  .navbar-nav>li>a {
+    font-weight: bold;
+  }
+
+  /* Dropdown menus */
+  .dropdown-menu {
+    background-color: #D5CDAB;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .dropdown-menu>li>a {
+    color: #103504;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+
+  .dropdown-menu>li>a:hover {
+    background-color: #a39b78;
+    color: #103504;
+  }
+
+  /* Headings */
+  h1.title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #103504;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .navbar.container {
+    margin-left: 2rem;
+  }
+
+  .navbar-right {
+    margin-left: 4rem;
+  }
+  .main-text {
+    width: 100%;
+  }
+
+  .team-name {
+    font-size: 1.8rem;
+    color: #103504;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container main-text" style="font-size: larger;">
+  <div style="text-align: center;">
+    <h1 class="title">Virginia Flora & Fauna (VFFD)</h1>
+  </div>
+
+  <p>The VFFD is designed to store, manage, and analyze information on Virginia's plant, animal, and insect species. The system allows users to access detailed species data such as common and scientific names, habitat, conservation status, regional distribution, and descriptive information. Researchers are able to submit observations that include details like location, date, notes, and photos/videos. The submissions are reviewed and approved by an administrator to ensure data quality. The VFFD enables users to track species information over time, monitor conservation, and make data driven decisions.</p>
+
+  <div style="text-align: center;">
+    <h1 class="title">About the Team</h1>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+
+    <div style="flex: 1 1 45%; display: flex; align-items: flex-start; gap: 1rem;">
+      <div class="img-wrapper">
+        <img src="/static/tenley.png" alt="Tenley Kennett">
+      </div>
+      <div>
+        <strong class="team-name">Tenley Kennett</strong><br>
+        Junior Computer Science major at James Madison University with a minor in GIS. She has programmed in Java, Python, and C, HTML, CSS. She enjoys front end development and data analysis, and eventually hopes to combine remote sensing/GIS data with computer science in the future. Outside of class she is a brother in Theta Tau (+ active on their volleyball team), and likes baking, arts & crafts, and watching movies.
+      </div>
+    </div>
+
+    <div style="flex: 1 1 45%; display: flex; align-items: flex-start; gap: 1rem;">
+      <div class="img-wrapper">
+        <img src="/static/will.jpeg" alt="Will Upright">
+      </div>
+      <div>
+        <strong class="team-name">Will Upright</strong><br>
+        Senior Computer Science major at James Madison University with experience in application development and a good understanding of computer systems. He also has experience writing code in Java, Javascript, Python, C, HTML, and CSS. He is excited to expand his knowledge of databases through this project. Outside of class he enjoys going to the gym, skiing, and playing golf.
+      </div>
+    </div>
+
+    <div style="flex: 1 1 45%; display: flex; align-items: flex-start; gap: 1rem;">
+      <div class="img-wrapper">
+        <img src="/static/michael.jpeg" alt="Michael Gerber">
+      </div>
+      <div>
+        <strong class="team-name">Michael Gerber</strong><br>
+        Senior Computer Science major with minors in data analytics and computer information systems. Decently skilled in full-stack development through self projects making websites and mobile applications. Looking to bring strong front end development to the project. He is also the Vice-President of Madison Motorsports and interns as a student-employee at Madison Automotive Apprentices using skills from Computer Science, Data Analytics and Engineering.
+      </div>
+    </div>
+
+    <div style="flex: 1 1 45%; display: flex; align-items: flex-start; gap: 1rem;">
+      <div class="img-wrapper">
+        <img src="/static/theo.jpeg" alt="Theo Mandelbaum">
+      </div>
+      <div>
+        <strong class="team-name">Theo Mandelbaum</strong><br>
+        Senior Computer Science major at James Madison University with minors in math and data analytics. Experienced in Python, JavaScript, C and Java. Has experience in full-stack web development using Django and React as frameworks. After graduation, he hopes to go straight into the workforce as a part of a data science team. Outside of academics, he likes music, sports and cooking.
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

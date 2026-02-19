@@ -1,0 +1,76 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+<h1>My Liked Observations</h1>
+
+{% if not observations %}
+	<p>You haven't liked any observations yet. Go to the <a href="{{ url_for('ObservationView.list') }}">Observations</a> page to like some!</p>
+{% else %}
+	<div class="obs-grid">
+		{% for obs in observations %}
+            <div class="obs-card">
+                <div class="obs-header">
+                    <strong class="species">{{ obs.species.common_name if obs.species else ('Species ' ~ obs.species_observed) }}</strong>
+                    <span class="obs-date">{{ obs.date_time.strftime('%Y-%m-%d %H:%M') if obs.date_time else 'Unknown date' }}</span>
+                </div>
+
+                <div class="obs-meta">
+                    <span class="observer">By: {{ obs.observer.name if obs.observer else ('User ' ~ obs.observer_id) }}</span>
+                    {% if obs.county %}<span class="county">County: {{ obs.county.name }}</span>{% endif %}
+                    {% if obs.observation_type %}<span class="type">Type: {{ obs.observation_type }}</span>{% endif %}
+                    {% if obs.status %}<span class="status">Status: {{ obs.status }}</span>{% endif %}
+                </div>
+
+                {% if obs.notes %}
+                    <p class="notes">{{ obs.notes }}</p>
+                {% endif %}
+
+                <div class="obs-actions">
+                    <a class="view-link" href="{{ url_for('ObservationView.show_observation',
+                                date_time=obs.date_time.isoformat(),
+                                species_observed=obs.species_observed,
+                                observer_id=obs.observer_id) }}">View Observation Details</a>
+                </div>
+            </div>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% block tail %}
+<style>
+    .obs-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 18px;
+		margin-top: 16px;
+	}
+
+	.obs-card {
+		background: #fff;
+		border-radius: 8px;
+		padding: 14px;
+		box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.obs-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 8px;
+	}
+
+	.species { font-size: 18px; }
+	.obs-date { color: #666; font-size: 13px; }
+
+	.obs-meta { margin-top: 8px; color: #444; font-size: 13px; display:flex; gap:8px; flex-wrap:wrap }
+	.notes { margin-top: 10px; color: #333; font-size: 14px; }
+
+	.obs-actions { margin-top: 12px; }
+	.view-link { text-decoration: none; color: #fff; background: #007bff; padding: 6px 10px; border-radius: 4px; font-size: 14px; }
+	.view-link:hover { background: #0056b3 }
+</style>
+{% endblock %}
+{% endblock %}
+

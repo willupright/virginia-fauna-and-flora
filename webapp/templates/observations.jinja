@@ -1,0 +1,58 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+<h1>Take a Look at Observations From Each County!</h1>
+<div class="county-grid">
+  {% for county_image in county_images %}
+    <div class="county-item">
+      <h3 class="county_title">{{ county_image.replace('.png', '').replace('_', ' ').title() }}</h3>
+      <div class="county-card">
+        <a href="{{ url_for('ObservationsListView.by_county', county_slug=county_image.replace('.png', '')) }}">
+          <img src="{{ url_for('static', filename='images/counties/' + county_image) }}"
+          alt="{{ county_image.replace('_', ' ').title() }}">
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% block tail %}
+<style>
+  .county-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .county-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .county-title {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 10px 0;
+    margin: 0 0 5px 0;
+    font-size: 50px;
+  }
+
+  .county-card {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+
+  .county-card:hover {
+    transform: scale(1.05);
+  }
+
+  .county-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+{% endblock %}
+{% endblock %}
