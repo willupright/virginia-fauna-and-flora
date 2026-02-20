@@ -46,3 +46,11 @@ Tenley Kennett, Michael Gerber, Will Upright, Theo Mandelbaum
 
 ## Project Context
 This project was created for academic purposes as part of a course focused on database systems.
+
+---
+
+## Demo Notice
+This application requires SSH access to a university-hosted PostgreSQL database.
+For security reasons, the database is not publicly accessible.
+
+Screenshots demonstrating full functionality are available on my portfolio website.
