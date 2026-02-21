@@ -53,4 +53,4 @@ This project was created for academic purposes as part of a course focused on da
 This application requires SSH access to a university-hosted PostgreSQL database.
 For security reasons, the database is not publicly accessible.
 
-Screenshots demonstrating full functionality are available on my portfolio website.
+Screenshots demonstrating some functionality are available on my portfolio website.
